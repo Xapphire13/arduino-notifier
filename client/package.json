@@ -1,0 +1,17 @@
+{
+  "name": "arduino-notifier",
+  "version": "0.0.0",
+  "description": "Desktop client for Arduino Notifier device",
+  "main": "dist/index.js",
+  "repository": "https://github.com/Xapphire13/arduino-notifier",
+  "author": "Xapphire13",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/serialport": "^7.0.0",
+    "typescript": "^3.2.1"
+  },
+  "dependencies": {
+    "serialport": "^7.1.0"
+  }
+}

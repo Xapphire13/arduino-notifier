@@ -7,6 +7,7 @@ void setup() {
   pinMode(CLOCK_PIN, OUTPUT);
   pinMode(DATA_PIN, OUTPUT);
   Serial.begin(9600);
+  Serial.write("READY");
 }
 
 void flushInput() {
