@@ -29,8 +29,8 @@ void displayNotification() {
 
   short numberOfFrames = sizeof(fivePin)/sizeof(fivePin[0]);
 
-  for (byte i = 0; i < (2*numberOfFrames); i++) {
-    updateDisplay(fivePin[i%numberOfFrames]);
+  for (byte i = 0; i < numberOfFrames; i++) {
+    updateDisplay(fivePin[i]);
     delay(100);
   }
   updateDisplay(0x00);

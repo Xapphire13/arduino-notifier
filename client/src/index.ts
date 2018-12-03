@@ -1,4 +1,5 @@
 import SerialPort from "serialport";
+import Notifier from "./notifier";
 
 // TODO, search list of arduino boards (https://github.com/arduino/ArduinoCore-avr/blob/master/boards.txt)
 const VID = "2341";
@@ -12,19 +13,15 @@ async function main(): Promise<void> {
   if (arduinoUnoInfo) {
     var port = new SerialPort(arduinoUnoInfo.comName);
     const parser = port.pipe(new SerialPort.parsers.Ready({delimiter: "READY"}));
-    parser.on("ready", () => onArduinoReady(port));
+    parser.on("ready", () => onNotifierReader(new Notifier(port)));
   } else {
-    console.log("No Arduino detected");
+    console.log("No device detected, is it plugged in?");
     return;
   }
 }
 
-async function write(port: SerialPort, data: string | number[] | Buffer): Promise<number> {
-  return new Promise((res, rej) => port.write(data, (err, bytesWritten) => err ? rej(err) : res(bytesWritten)));
-}
-
-async function onArduinoReady(port: SerialPort): Promise<void> {
-  await write(port, [1]);
+async function onNotifierReader(device: Notifier): Promise<void> {
+  await device.notify();
   process.exit(0);
 }
 
