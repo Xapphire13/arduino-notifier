@@ -12,6 +12,7 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
+    "chalk": "^2.4.1",
     "serialport": "^7.1.0"
   }
 }

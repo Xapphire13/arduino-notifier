@@ -7,7 +7,7 @@ void setup() {
   pinMode(CLOCK_PIN, OUTPUT);
   pinMode(DATA_PIN, OUTPUT);
   Serial.begin(9600);
-  Serial.write("READY");
+  Serial.println("READY");
 }
 
 void flushInput() {
@@ -60,7 +60,9 @@ void processCommand(byte commandType) {
     case 0x01: // Display notification
       displayNotification();
       break;
-    default: // TODO, write error back to serial
+    default:
+      Serial.print("ERROR: Unknown command type: 0x");
+      Serial.println(commandType, HEX);
       break;
   }
 

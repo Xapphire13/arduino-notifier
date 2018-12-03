@@ -1,5 +1,6 @@
 import SerialPort from "serialport";
 import Notifier from "./notifier";
+import chalk from "chalk";
 
 // TODO, search list of arduino boards (https://github.com/arduino/ArduinoCore-avr/blob/master/boards.txt)
 const VID = "2341";
@@ -12,8 +13,12 @@ async function main(): Promise<void> {
 
   if (arduinoUnoInfo) {
     var port = new SerialPort(arduinoUnoInfo.comName);
-    const parser = port.pipe(new SerialPort.parsers.Ready({delimiter: "READY"}));
+
+    const parser = port.pipe(new SerialPort.parsers.Ready({delimiter: "READY\r\n"}));
     parser.on("ready", () => onNotifierReader(new Notifier(port)));
+
+    const errorParser = parser.pipe(new SerialPort.parsers.Regex({regex: /^ERROR: (.+)\r\n/m}));
+    errorParser.on("data", err => console.error(chalk.red.bold(err)));
   } else {
     console.log("No device detected, is it plugged in?");
     return;
@@ -22,7 +27,7 @@ async function main(): Promise<void> {
 
 async function onNotifierReader(device: Notifier): Promise<void> {
   await device.notify();
-  process.exit(0);
+  // process.exit(0);
 }
 
 main();
