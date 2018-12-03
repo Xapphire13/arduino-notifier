@@ -1,6 +1,7 @@
 import SerialPort from "serialport";
 import Notifier from "./notifier";
 import chalk from "chalk";
+import delay from "delay";
 
 // TODO, search list of arduino boards (https://github.com/arduino/ArduinoCore-avr/blob/master/boards.txt)
 const VID = "2341";
@@ -17,6 +18,9 @@ async function main(): Promise<void> {
     const parser = port.pipe(new SerialPort.parsers.Ready({delimiter: "READY\r\n"}));
     parser.on("ready", () => onNotifierReader(new Notifier(port)));
 
+    const debugParser = parser.pipe(new SerialPort.parsers.Readline({delimiter: "\r\n"}));
+    debugParser.on("data", data => console.log(`From device: ${data}`));
+
     const errorParser = parser.pipe(new SerialPort.parsers.Regex({regex: /^ERROR: (.+)\r\n/m}));
     errorParser.on("data", err => console.error(chalk.red.bold(err)));
   } else {
@@ -27,7 +31,10 @@ async function main(): Promise<void> {
 
 async function onNotifierReader(device: Notifier): Promise<void> {
   await device.notify();
-  // process.exit(0);
+
+  await device.updateNotification(4, 100);
+  await delay(2000);
+  await device.updateNotification(7, 200);
 }
 
 main();

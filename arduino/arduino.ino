@@ -1,3 +1,5 @@
+#define DEBUG
+
 const int LATCH_PIN = 4; // ST_CP
 const int CLOCK_PIN = 7; // SH_CP
 const int DATA_PIN = 2; // DS
@@ -8,10 +10,6 @@ void setup() {
   pinMode(DATA_PIN, OUTPUT);
   Serial.begin(9600);
   Serial.println("READY");
-}
-
-void flushInput() {
-  while(Serial.available()) Serial.read();
 }
 
 void updateDisplay(byte data) {
@@ -37,8 +35,8 @@ void displayNotification() {
 }
 
 byte data = 0x00;
-short speeds[] = {0,0,0,0,0,0,0,0};
-int timers[] = {0,0,0,0,0,0,0,0};
+unsigned short speeds[] = {0,0,0,0,0,0,0,0};
+unsigned int timers[] = {0,0,0,0,0,0,0,0};
 long lastUpdate = 0;
 void updateData() {
   long now = millis();
@@ -55,18 +53,46 @@ void updateData() {
   }
 }
 
+#pragma pack(push, 1)
+struct TimerInfo {
+  unsigned short updateSpeed;
+  byte timerNumber;
+};
+#pragma pack(pop)
+
+void updateTimers() {
+  byte numberOfTimers = Serial.read();
+  int bufferSize = numberOfTimers*sizeof(TimerInfo);
+  byte buff[bufferSize];
+
+  Serial.readBytes(buff, bufferSize);
+
+  TimerInfo *infos = (TimerInfo*)buff;
+
+  for (int i = 0; i < numberOfTimers; i++) {
+    TimerInfo timerInfo = infos[i];
+    if (timerInfo.timerNumber > 7) continue;
+    speeds[timerInfo.timerNumber] = timerInfo.updateSpeed;
+    #ifdef DEBUG
+    Serial.println(timerInfo.timerNumber);
+    Serial.println(timerInfo.updateSpeed);
+    #endif
+  }
+}
+
 void processCommand(byte commandType) {
   switch(commandType) {
     case 0x01: // Display notification
       displayNotification();
+      break;
+    case 0x02:
+      updateTimers();
       break;
     default:
       Serial.print("ERROR: Unknown command type: 0x");
       Serial.println(commandType, HEX);
       break;
   }
-
-  flushInput();
 }
 
 void loop() {
@@ -76,4 +102,5 @@ void loop() {
   }
 
   updateData();
+  updateDisplay(data);
 }
