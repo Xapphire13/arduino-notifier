@@ -2,31 +2,31 @@
 # yarn lockfile v1
 
 
-"@serialport/binding-abstract@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@serialport/binding-abstract/-/binding-abstract-2.0.2.tgz#18b57473f9f2be4ba0e213e11c8ab9669814f627"
-  integrity sha512-VHlIyYTDcdDc0TR/I1u1vLLJjdH7A7L/WNpWZA2lvvk+Q+wfPYJsDfkPvGfVVaK2SUfFQsda/ZLRtTxDg9bcKg==
-  dependencies:
-    debug "^4.1.0"
-
-"@serialport/binding-mock@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@serialport/binding-mock/-/binding-mock-2.0.2.tgz#d80ee318561e673c611b9a40ef356acdb9554c90"
-  integrity sha512-IGiGhUXDgid1qB+9NjacMg0CbRauC5XvXXFQxYabcE7KXFNnKhLcssNBsfAqHgBaL3wWIE3Ko6VVWpzNIaNQkw==
-  dependencies:
-    "@serialport/binding-abstract" "^2.0.2"
-    debug "^4.1.0"
-
-"@serialport/bindings@^2.0.3":
+"@serialport/binding-abstract@^2.0.3":
   version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@serialport/bindings/-/bindings-2.0.3.tgz#6a62923db14ef8146ae9ac6c0179c140fc692f29"
-  integrity sha512-4Ro0Dd/peISHAkwStZ40DBliAdVuzRcale7AT646gaGzvOyCXPPhRH3ULjuYdXM4oS7F//7j87yMyy5tdhAJzg==
+  resolved "https://registry.yarnpkg.com/@serialport/binding-abstract/-/binding-abstract-2.0.3.tgz#5c0d358b0809d9890a92853b5ea8fec08867f4f7"
+  integrity sha512-nD2MTIgJAHF9fynGhQbc86gPXAV8RCZ4XCH3ppm1FzVjiqHoqLwoS6BzsFNXfCUz63MCyufKNXF1mQjAyejy0g==
   dependencies:
-    "@serialport/binding-abstract" "^2.0.2"
+    debug "^4.1.0"
+
+"@serialport/binding-mock@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@serialport/binding-mock/-/binding-mock-2.0.3.tgz#ab9272c69a9815e4b3fa23ce355956d8d7f2fe8a"
+  integrity sha512-zCDC4DOVRyE8JMf1P8rI0LzxMEFS6CkiGfYSNWEetluMtuC0bIoRv4kFXAVTaJUGwY/UHG7nMvGZIFDZFN4bCA==
+  dependencies:
+    "@serialport/binding-abstract" "^2.0.3"
+    debug "^4.1.0"
+
+"@serialport/bindings@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@serialport/bindings/-/bindings-2.0.4.tgz#43e8c8d60e305203954f181bc0be226b42979241"
+  integrity sha512-urmHlkJKTSVj/xJvx3SpW1615NpQOEOJye+z2ZLhIvfFZT2UlPkfcqbdhyjX7ushsau6VnmZTLvGEC4ul1excA==
+  dependencies:
+    "@serialport/binding-abstract" "^2.0.3"
     "@serialport/parser-readline" "^2.0.2"
     bindings "^1.3.0"
     debug "^4.1.0"
-    nan "^2.11.0"
+    nan "^2.12.1"
     prebuild-install "^5.2.1"
 
 "@serialport/parser-byte-length@^2.0.2":
@@ -61,12 +61,12 @@
   resolved "https://registry.yarnpkg.com/@serialport/parser-regex/-/parser-regex-2.0.2.tgz#fde13ca38770ea53a77e8f0c53b2c46b2cef805a"
   integrity sha512-7qjYd7AdHUK8fJOmHpXlMRipqRCVMMyDFyf/5TQQiOt6q+BiFjLOtSpVXhakHwgnXanzDYKeRSB8zM0pZZg+LA==
 
-"@serialport/stream@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@serialport/stream/-/stream-2.0.2.tgz#033ac159cdc908de8bd15d9d528f9714dbbc119c"
-  integrity sha512-As2tXfFoRvAKiCsr33+JKmA2BQn3BTP/ZrP2qjXrKgN1uNE4pISzWb7G0mphRzy2MJLwGtyna5JAYomEFFL8sw==
+"@serialport/stream@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@serialport/stream/-/stream-2.0.3.tgz#a8b9988db21a0c8ce8677b5d0222f971d15acff1"
+  integrity sha512-gQXCW7sy1kIGbtv4DzHIaxJpKz3G4pA/Ff1kQ/vaHtou88yNsvkzxd4AfwL0GOWSRMNNS71gv8/WczoRgRKfsw==
   dependencies:
-    "@serialport/binding-mock" "^2.0.2"
+    "@serialport/binding-mock" "^2.0.3"
     debug "^4.1.0"
 
 "@types/node@*":
@@ -74,10 +74,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.11.tgz#715c476c99a5f6898a1ae61caf9825e43c03912e"
   integrity sha512-3iIOhNiPGTdcUNVCv9e5G7GotfvJJe2pc9w2UgDXlUwnxSZ3RgcUocIU+xYm+rTU54jIKih998QE4dMOyMN1NQ==
 
-"@types/serialport@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@types/serialport/-/serialport-7.0.0.tgz#69600406b3313f512d41eea0c3b44608779076d0"
-  integrity sha512-2YWFntEKeEKh8lCngxoIaEYV+ov87PZOTKbhXSc6Htt3WAaex0AOZczDXcdHvtS9OBf30ydZcncazUE7+vltcw==
+"@types/serialport@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@types/serialport/-/serialport-7.0.1.tgz#66be95bfe4eb2c27c34e6048b644690bcd02dc9a"
+  integrity sha512-qLi4BAr4+FDM1hBw/anzQAI32fhArlCUxk3lKnIKGFMuC0lHYq+Afs3425gpccc+AryEcHwOjWiP/15FJ5YgtA==
   dependencies:
     "@types/node" "*"
 
@@ -322,10 +322,10 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-nan@^2.11.0:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.1.tgz#90e22bccb8ca57ea4cd37cc83d3819b52eea6766"
-  integrity sha512-iji6k87OSXa0CcrLl9z+ZiYSuR2o+c0bGuNmXdrhTQTakxytAFsC56SArGYoiHlJlFoHSnvmhpceZJaXkVuOtA==
+nan@^2.12.1:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552"
+  integrity sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
 
 napi-build-utils@^1.0.1:
   version "1.0.1"
@@ -452,20 +452,20 @@ semver@^5.4.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.6.0.tgz#7e74256fbaa49c75aa7c7a205cc22799cac80004"
   integrity sha512-RS9R6R35NYgQn++fkDWaOmqGoj4Ek9gGs+DPxNUZKuwE183xjJroKvyo1IzVFeXvUrvmALy6FWD5xrdJT25gMg==
 
-serialport@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/serialport/-/serialport-7.1.0.tgz#4fdb8d74a774acc6967ceef985cab87521c670e0"
-  integrity sha512-GPY1mg8lJe1BN8GnEBn3Ik8ImTfwoCsF5W5vEYs171BQp6VjZ5wWbyKlGMnbFBGFB7Ij14qLS7cJPymYzvcKiQ==
+serialport@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/serialport/-/serialport-7.1.1.tgz#fd0360632c69273b911d2ef1cb6004b5314085c2"
+  integrity sha512-3cAiDgdy3MD1Zr3QoHdnq6qbPAYABAPo+sFOv2FzXme44Pu88Gnf4f2Z0F1qYt+sGUZYX8RcwgUUp2tDnYXHKw==
   dependencies:
-    "@serialport/binding-mock" "^2.0.2"
-    "@serialport/bindings" "^2.0.3"
+    "@serialport/binding-mock" "^2.0.3"
+    "@serialport/bindings" "^2.0.4"
     "@serialport/parser-byte-length" "^2.0.2"
     "@serialport/parser-cctalk" "^2.0.2"
     "@serialport/parser-delimiter" "^2.0.2"
     "@serialport/parser-readline" "^2.0.2"
     "@serialport/parser-ready" "^2.0.2"
     "@serialport/parser-regex" "^2.0.2"
-    "@serialport/stream" "^2.0.2"
+    "@serialport/stream" "^2.0.3"
     debug "^4.1.0"
 
 set-blocking@~2.0.0:

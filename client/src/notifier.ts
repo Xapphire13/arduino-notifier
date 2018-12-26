@@ -1,4 +1,6 @@
+import Logger from "./logger";
 import SerialPort from "serialport";
+import {ControlCode} from "./control-code";
 import {write} from "./serial-port-helpers";
 
 const TIMER_INFO_SIZE = 3;
@@ -7,7 +9,7 @@ export default class Notifier {
   constructor(private port: SerialPort) {}
 
   public async notify(): Promise<void> {
-    await write(this.port, [1]);
+    await write(this.port, [ControlCode.Notify]);
   }
 
   public async updateNotification(notificationId: number, flashSpeed: number): Promise<void> {
@@ -17,14 +19,26 @@ export default class Notifier {
     const view = new DataView(buf);
 
     // Control code
-    view.setUint8(0, 2);
+    view.setUint8(0, ControlCode.UpdateTimers);
     // Number of timers
     view.setUint8(1, 1);
 
     // TimerInfo
+    Logger.debug(`Setting NotificationID: ${notificationId} to flash speed: ${flashSpeed}`);
     view.setUint16(2, flashSpeed, true);
     view.setUint8(4, notificationId);
+    Logger.debug(`Sending buffer: ${this.viewToString(view)}`);
 
     await write(this.port, Buffer.from(buf));
+  }
+
+  private viewToString(view: DataView): string {
+    const parts: string[] = [];
+
+    for (let i = 0; i < view.byteLength; i++) {
+      parts.push(`0x${view.getUint8(i).toString(16).padStart(2, "0")}`);
+    }
+
+    return parts.join("");
   }
 }
