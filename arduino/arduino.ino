@@ -5,6 +5,7 @@ const int CLOCK_PIN = 7; // SH_CP
 const int DATA_PIN = 2; // DS
 
 void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Keeps built in LED off
   pinMode(LATCH_PIN, OUTPUT);
   pinMode(CLOCK_PIN, OUTPUT);
   pinMode(DATA_PIN, OUTPUT);
@@ -74,7 +75,9 @@ void updateTimers() {
     if (timerInfo.timerNumber > 7) continue;
     speeds[timerInfo.timerNumber] = timerInfo.updateSpeed;
     #ifdef DEBUG
+    Serial.print("Timer Number -> ");
     Serial.println(timerInfo.timerNumber);
+    Serial.print("Update Speed -> ");
     Serial.println(timerInfo.updateSpeed);
     #endif
   }
