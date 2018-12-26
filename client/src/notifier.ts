@@ -9,7 +9,9 @@ export default class Notifier {
   constructor(private port: SerialPort) {}
 
   public async notify(): Promise<void> {
+    Logger.debug("Sending notification");
     await write(this.port, [ControlCode.Notify]);
+    Logger.debug("Sent");
   }
 
   public async updateNotification(notificationId: number, flashSpeed: number): Promise<void> {

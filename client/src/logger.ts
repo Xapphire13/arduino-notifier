@@ -1,3 +1,5 @@
+import chalk from "chalk";
+
 class Logger {
   private isDebug: boolean;
 
@@ -7,7 +9,7 @@ class Logger {
 
   public debug(message: string): void {
     if (this.isDebug) {
-      console.log(message);
+      console.log(`${chalk.bgYellow.black("DEBUG")} ${chalk.yellow(message)}`);
     }
   }
 

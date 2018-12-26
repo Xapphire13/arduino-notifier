@@ -19,10 +19,10 @@ async function main(): Promise<void> {
     parser.on("ready", () => onNotifierReader(new Notifier(port)));
 
     const debugParser = parser.pipe(new SerialPort.parsers.Readline({delimiter: "\r\n"}));
-    debugParser.on("data", (data: any) => console.log(`From device: ${data}`));
+    debugParser.on("data", data => console.log(`From device: ${data}`));
 
     const errorParser = parser.pipe(new SerialPort.parsers.Regex({regex: /^ERROR: (.+)\r\n/m}));
-    errorParser.on("data", (err: any) => console.error(chalk.red.bold(err)));
+    errorParser.on("data", err => console.error(chalk.red.bold(err)));
   } else {
     console.log("No device detected, is it plugged in?");
     return;
