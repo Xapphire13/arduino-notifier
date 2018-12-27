@@ -20,5 +20,8 @@
     "chalk": "^2.4.1",
     "delay": "^4.1.0",
     "serialport": "^7.1.1"
+  },
+  "resolutions": {
+    "@serialport/bindings": "2.0.2"
   }
 }
