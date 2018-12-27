@@ -1,5 +1,12 @@
 node_modules/
+.vs/
+
+# Build Output
+obj/
+out/
 dist/
+
+# Generated Files
 *.log
 *.bin
 *.eep

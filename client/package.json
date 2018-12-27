@@ -12,6 +12,7 @@
     "build": "tsc -p ."
   },
   "devDependencies": {
+    "@types/node": "^10.12.18",
     "@types/serialport": "^7.0.1",
     "cross-env": "^5.2.0",
     "typescript": "^3.2.1"

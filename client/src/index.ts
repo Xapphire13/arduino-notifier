@@ -1,11 +1,16 @@
 import SerialPort from "serialport";
 import Notifier from "./notifier";
-import delay from "delay";
+// import delay from "delay";
 import Logger from "./logger";
+import path from "path";
+import fs from "fs";
+import util from "util";
+import Plugin from "./plugin";
 
 // TODO, search list of arduino boards (https://github.com/arduino/ArduinoCore-avr/blob/master/boards.txt)
 const VID = "2341";
 const PID = "0043";
+const PLUGINS_PATH = path.resolve(__dirname, "./plugins");
 
 async function main(): Promise<void> {
   const availableDevices = await SerialPort.list();
@@ -34,11 +39,23 @@ async function main(): Promise<void> {
 
 async function onNotifierReady(device: Notifier): Promise<void> {
   Logger.ok("connected!");
+  await loadPlugins(device);
   await device.notify();
 
   let speed = 100;
   for (let i = 3; i < 8; i++, speed += 100) {
     await device.updateNotification(i, speed);
+  }
+}
+
+async function loadPlugins(notifier: Notifier): Promise<void> {
+  const pluginsDirs = (await util.promisify(fs.readdir)(PLUGINS_PATH));
+
+  for (let pluginDir of pluginsDirs) {
+    const module = require(path.resolve(PLUGINS_PATH, pluginDir));
+    const plugin: Plugin = module.default || module;
+
+    await plugin.init(notifier);
   }
 }
 
