@@ -35,6 +35,15 @@ void displayNotification() {
   updateDisplay(0x00);
 }
 
+void printBuffer(byte* buff, int bufferSize) {
+  // Print buffer
+  for (int i = 0; i < bufferSize; i++) {
+    Serial.print(buff[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.println("");
+}
+
 byte data = 0x00;
 unsigned short speeds[] = {0,0,0,0,0,0,0,0};
 unsigned int timers[] = {0,0,0,0,0,0,0,0};
@@ -62,7 +71,8 @@ struct TimerInfo {
 #pragma pack(pop)
 
 void updateTimers() {
-  byte numberOfTimers = Serial.read();
+  byte numberOfTimers;
+  Serial.readBytes(&numberOfTimers, 1);
   int bufferSize = numberOfTimers*sizeof(TimerInfo);
   byte buff[bufferSize];
 

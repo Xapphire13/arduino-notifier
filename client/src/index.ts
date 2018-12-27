@@ -36,9 +36,10 @@ async function onNotifierReady(device: Notifier): Promise<void> {
   Logger.ok("connected!");
   await device.notify();
 
-  //await device.updateNotification(4, 100);
-  await delay(2000);
-  await device.updateNotification(7, 200);
+  let speed = 100;
+  for (let i = 3; i < 8; i++, speed += 100) {
+    await device.updateNotification(i, speed);
+  }
 }
 
 main();
