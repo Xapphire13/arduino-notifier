@@ -7,14 +7,19 @@ class Logger {
     this.isDebug = process.env.NODE_ENV === "dev";
   }
 
-  public debug(message: string): void {
+  public debug(message: any): void {
     if (this.isDebug) {
-      console.log(`${chalk.bgYellow.black("DEBUG")} ${chalk.yellow(message)}`);
+      if (typeof(message) === "string") message = chalk.yellow(message);
+      console.log(`${chalk.bgYellow.black("DEBUG")} ${message}`);
     }
   }
 
-  public log(message: string): void {
+  public log(message: any): void {
     console.log(message);
+  }
+
+  public error(message: any): void {
+    console.error(message);
   }
 }
 

@@ -1,7 +1,7 @@
 import SerialPort from "serialport";
 import Notifier from "./notifier";
-import chalk from "chalk";
 import delay from "delay";
+import Logger from "./logger";
 
 // TODO, search list of arduino boards (https://github.com/arduino/ArduinoCore-avr/blob/master/boards.txt)
 const VID = "2341";
@@ -13,18 +13,21 @@ async function main(): Promise<void> {
   const arduinoUnoInfo = availableDevices.find(info => info.vendorId === VID && info.productId === PID);
 
   if (arduinoUnoInfo) {
+    Logger.log(`Connecting to: ${arduinoUnoInfo.comName}`);
     var port = new SerialPort(arduinoUnoInfo.comName);
+
+    port.on("error", Logger.error);
 
     const parser = port.pipe(new SerialPort.parsers.Ready({delimiter: "READY\r\n"}));
     parser.on("ready", () => onNotifierReader(new Notifier(port)));
 
     const debugParser = parser.pipe(new SerialPort.parsers.Readline({delimiter: "\r\n"}));
-    debugParser.on("data", data => console.log(`From device: ${data}`));
+    debugParser.on("data", data => Logger.debug(`From device: ${data}`));
 
     const errorParser = parser.pipe(new SerialPort.parsers.Regex({regex: /^ERROR: (.+)\r\n/m}));
-    errorParser.on("data", err => console.error(chalk.red.bold(err)));
+    errorParser.on("data", Logger.error);
   } else {
-    console.log("No device detected, is it plugged in?");
+    Logger.log("No device detected, is it plugged in?");
     return;
   }
 }
