@@ -14,12 +14,20 @@ class Logger {
     }
   }
 
-  public log(message: any): void {
-    console.log(message);
+  public log(message: any, noNewline: boolean = false): void {
+    if (noNewline) {
+      process.stdout.write(message);
+    } else {
+      console.log(message);
+    }
   }
 
   public error(message: any): void {
     console.error(message);
+  }
+
+  public ok(message: any): void {
+    console.log(chalk.green(`${message}`));
   }
 }
 

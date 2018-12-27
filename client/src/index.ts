@@ -13,13 +13,13 @@ async function main(): Promise<void> {
   const arduinoUnoInfo = availableDevices.find(info => info.vendorId === VID && info.productId === PID);
 
   if (arduinoUnoInfo) {
-    Logger.log(`Connecting to: ${arduinoUnoInfo.comName}`);
+    Logger.log(`Connecting to: ${arduinoUnoInfo.comName}... `, true);
     var port = new SerialPort(arduinoUnoInfo.comName);
 
     port.on("error", Logger.error);
 
     const parser = port.pipe(new SerialPort.parsers.Ready({delimiter: "READY\r\n"}));
-    parser.on("ready", () => onNotifierReader(new Notifier(port)));
+    parser.on("ready", () => onNotifierReady(new Notifier(port)));
 
     const debugParser = parser.pipe(new SerialPort.parsers.Readline({delimiter: "\r\n"}));
     debugParser.on("data", data => Logger.debug(`From device: ${data}`));
@@ -32,7 +32,8 @@ async function main(): Promise<void> {
   }
 }
 
-async function onNotifierReader(device: Notifier): Promise<void> {
+async function onNotifierReady(device: Notifier): Promise<void> {
+  Logger.ok("connected!");
   await device.notify();
 
   //await device.updateNotification(4, 100);
