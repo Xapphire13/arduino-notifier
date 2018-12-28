@@ -39,12 +39,8 @@ async function main(): Promise<void> {
 async function onNotifierReady(device: Notifier): Promise<void> {
   Logger.ok("connected!");
   await loadPlugins(device);
+  
   await device.notify();
-
-  let speed = 100;
-  for (let i = 3; i < 8; i++, speed += 100) {
-    await device.updateNotification(i, speed);
-  }
 }
 
 async function loadPlugins(notifier: Notifier): Promise<void> {
@@ -56,9 +52,13 @@ async function loadPlugins(notifier: Notifier): Promise<void> {
     const plugin: Plugin = module.default || module;
     const currentId = notificationId; // Force value copy
 
-    await plugin.init();
-    plugin.onNotify(() => notifier.notify());
-    plugin.onUpdateNotification(flashSpeed => notifier.updateNotification(currentId, flashSpeed));
+    try {
+      await plugin.init();
+      plugin.onNotify(() => notifier.notify());
+      plugin.onUpdateNotification(flashSpeed => notifier.updateNotification(currentId, flashSpeed));
+    } catch (err) {
+      Logger.error(`Failed to load plugin: ${pluginDir}, exception: ${err}`);
+    }
 
     notificationId--;
   }

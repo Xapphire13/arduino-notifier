@@ -1,16 +1,25 @@
 #define DEBUG
 
-const int LATCH_PIN = 4; // ST_CP
-const int CLOCK_PIN = 7; // SH_CP
-const int DATA_PIN = 2; // DS
+const byte LATCH_PIN = 4; // ST_CP
+const byte CLOCK_PIN = 7; // SH_CP
+const byte DATA_PIN = 2; // DS
+const byte BUTTON_PIN = 3;
 
-void setup() {
-  pinMode(LED_BUILTIN, OUTPUT); // Keeps built in LED off
-  pinMode(LATCH_PIN, OUTPUT);
-  pinMode(CLOCK_PIN, OUTPUT);
-  pinMode(DATA_PIN, OUTPUT);
-  Serial.begin(9600);
-  Serial.println("READY");
+byte data = 0x00;
+unsigned short speeds[] = {0,0,0,0,0,0,0,0};
+unsigned int timers[] = {0,0,0,0,0,0,0,0};
+long lastUpdate = 0;
+volatile bool notificationCancelled = false;
+
+#pragma pack(push, 1)
+struct TimerInfo {
+  unsigned short updateSpeed;
+  byte timerNumber;
+};
+#pragma pack(pop)
+
+void cancelNotification() {
+  notificationCancelled = true;
 }
 
 void updateDisplay(byte data) {
@@ -20,6 +29,8 @@ void updateDisplay(byte data) {
 }
 
 void displayNotification() {
+  notificationCancelled = false;
+
   const byte fivePin[] = {
     0b10000000, 0b01000000, 0b00100000, 0b00010000, 0b00001000,
     0b00010000, 0b00100000, 0b01000000, 0b10000000,
@@ -28,11 +39,13 @@ void displayNotification() {
 
   short numberOfFrames = sizeof(fivePin)/sizeof(fivePin[0]);
 
-  for (byte i = 0; i < numberOfFrames; i++) {
-    updateDisplay(fivePin[i]);
-    delay(100);
+  while(!notificationCancelled) {
+    for (byte i = 0; i < numberOfFrames; i++) {
+      updateDisplay(fivePin[i]);
+      delay(100);
+    }
+    updateDisplay(0x00);
   }
-  updateDisplay(0x00);
 }
 
 void printBuffer(byte* buff, int bufferSize) {
@@ -44,10 +57,6 @@ void printBuffer(byte* buff, int bufferSize) {
   Serial.println("");
 }
 
-byte data = 0x00;
-unsigned short speeds[] = {0,0,0,0,0,0,0,0};
-unsigned int timers[] = {0,0,0,0,0,0,0,0};
-long lastUpdate = 0;
 void updateData() {
   long now = millis();
   long delta = now - lastUpdate;
@@ -62,13 +71,6 @@ void updateData() {
     }
   }
 }
-
-#pragma pack(push, 1)
-struct TimerInfo {
-  unsigned short updateSpeed;
-  byte timerNumber;
-};
-#pragma pack(pop)
 
 void updateTimers() {
   byte numberOfTimers;
@@ -106,6 +108,17 @@ void processCommand(byte commandType) {
       Serial.println(commandType, HEX);
       break;
   }
+}
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Keeps built in LED off
+  pinMode(LATCH_PIN, OUTPUT);
+  pinMode(CLOCK_PIN, OUTPUT);
+  pinMode(DATA_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), cancelNotification, RISING);
+  Serial.begin(9600);
+  Serial.println("READY");
 }
 
 void loop() {

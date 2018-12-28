@@ -23,7 +23,8 @@ class Logger {
   }
 
   public error(message: any): void {
-    console.error(message);
+    if (typeof(message) === "string") message = chalk.red(message);
+    console.error(`${chalk.bgRed.black("ERROR")} ${message}`);
   }
 
   public ok(message: any): void {
