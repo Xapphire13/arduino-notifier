@@ -51,11 +51,17 @@ async function onNotifierReady(device: Notifier): Promise<void> {
 async function loadPlugins(notifier: Notifier): Promise<void> {
   const pluginsDirs = (await util.promisify(fs.readdir)(PLUGINS_PATH));
 
+  let notificationId = 7;
   for (let pluginDir of pluginsDirs) {
     const module = require(path.resolve(PLUGINS_PATH, pluginDir));
     const plugin: Plugin = module.default || module;
+    const currentId = notificationId; // Force value copy
 
-    await plugin.init(notifier);
+    await plugin.init();
+    plugin.onNotify(() => notifier.notify());
+    plugin.onUpdateNotification(flashSpeed => notifier.updateNotification(currentId, flashSpeed));
+
+    notificationId--;
   }
 }
 
