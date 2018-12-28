@@ -14,7 +14,6 @@ const PLUGINS_PATH = path.resolve(__dirname, "./plugins");
 
 async function main(): Promise<void> {
   const availableDevices = await SerialPort.list();
-
   const arduinoUnoInfo = availableDevices.find(info => info.vendorId === VID && info.productId === PID);
 
   if (arduinoUnoInfo) {
